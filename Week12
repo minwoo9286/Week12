@@ -1,0 +1,69 @@
+import 'package:flutter/material.dart';
+
+class Root extends StatefulWidget {
+  const Root({super.key});
+
+  @override
+  State<Root> createState() => _RootState();
+}
+
+class _RootState extends State<Root> {
+  int _currentIndex = 0;
+  final PageController _pageController = PageController();
+
+  final List<Widget> _pages = [
+    // 페이지 1
+    Container(
+      color: Colors.white,
+      child: const Center(
+        child: Text(
+          '홈 화면입니다',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    ),
+
+    // 페이지 2
+    Container(
+      color: Colors.grey,
+      child: const Center(
+        child: Text(
+          '내 정보 페이지',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(), // 스와이프 이동 막기
+        children: _pages,
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        selectedItemColor: Colors.black,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          _pageController.jumpToPage(index);
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '홈',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: '내 정보',
+          ),
+        ],
+      ),
+    );
+  }
+}
